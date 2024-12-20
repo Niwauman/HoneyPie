@@ -1,3 +1,3 @@
 # HoneyPie
 Function zones planner
-![alt text](https://github.com/[Niwauman]/[HoneyPie]/blob/[main]/images/image.png?raw=true)
+![alt text](https://github.com/[Niwauman]/[HoneyPie]/[main]/images/image.png?raw=true)
