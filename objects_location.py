@@ -13,26 +13,6 @@ from spopt.locate import LSCP
 
 class SocialObjectsLocation:
     # LOCATION social_objects
-
-    # Creation a variant of road graph. Will be used in LSCP
-
-    def create_graph(gdf, LOCAL_CRS):
-        lines_dict = pd.DataFrame(columns = ['name','geometry']) 
-        num =0
-        points_gdf = gdf.copy()
-        points_gdf['geometry'] = points_gdf['geometry'].centroid
-        for i in range(len(gdf)):
-            list_point = []
-            neighbours_point = points_gdf[points_gdf.geometry.within(gdf.loc[i, 'geometry'].buffer(120))].reset_index()
-            point_start = gdf.geometry[i].centroid
-            for p in range(len(neighbours_point)):
-                point_end = neighbours_point.loc[p, 'geometry']
-                lines_dict.loc[num, 'geometry'] = LineString([point_start, point_end])
-                num += 1
-        gdf_line = gpd.GeoDataFrame(lines_dict, geometry='geometry', crs = LOCAL_CRS)
-        gdf_line.reset_index(inplace=True)
-        return gdf_line    
-
     def network_contruction(gdf, LOCAL_CRS):
         lines_dict = pd.DataFrame(columns = ['name','geometry']) 
         num =0
