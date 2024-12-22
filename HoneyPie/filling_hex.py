@@ -127,3 +127,16 @@ def invasion(gdf, gdf_neighbour, ind,soc,mid,low,cot,gar,par,grb): # gdf_neighbo
     gdf.loc[list_point,'score_green_buffer'] += grb
     gdf['score_living'] = gdf['score_middle_living'] + gdf['score_low_living'] + gdf['score_cottage_living']
     return gdf
+
+
+class ModifyHex:
+    # calculate population and ages
+    def recover_population(gdf):
+        gdf['population'] = 0
+        gdf.loc[gdf[gdf['func_zone'] == 'middle_living'].index, 'population'] = 330
+        gdf.loc[gdf[gdf['func_zone'] == 'low_living'].index, 'population'] = 70
+        gdf.loc[gdf[gdf['func_zone'] == 'cottage_living'].index, 'population'] = 50
+
+        gdf['population_schildren'] = gdf['population'] * 0.0657
+        gdf['population_teens'] = gdf['population'] * 0.1081
+        return(gdf)
