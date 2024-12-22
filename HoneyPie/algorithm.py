@@ -36,10 +36,10 @@ class TerritoryAssessment:
     
 
 class TerritoryPlanner:
-    def set_middle_living(gdf, hex_count): 
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'middle_living', hex_count['middle_living'])
+    def set_middle_living(gdf, hex_count, WIND_DIRECTION, centre): 
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'middle_living', hex_count['middle_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'middle_living', hex_count['middle_living'], func,1)
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'middle_living', hex_count['middle_living'])
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'middle_living', hex_count['middle_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'middle_living', hex_count['middle_living'], func,1)
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'middle_living'].index, 300), 'score_industrial'] += -5
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'middle_living'].index), 'score_low_living'] += 2
@@ -48,10 +48,10 @@ class TerritoryPlanner:
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'middle_living'].index), 'score_green_buffer'] += 3
         return(gdf)
     
-    def set_low_living(gdf, hex_count):
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'low_living', hex_count['low_living'])
+    def set_low_living(gdf, hex_count, WIND_DIRECTION, centre):
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'low_living', hex_count['low_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'low_living', hex_count['low_living'], func, 2)
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'low_living', hex_count['low_living'])
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'low_living', hex_count['low_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'low_living', hex_count['low_living'], func, 2)
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'low_living'].index), 'score_industrial'] += -3
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'low_living'].index), 'score_cottage_living'] += 2
@@ -60,25 +60,25 @@ class TerritoryPlanner:
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'low_living'].index, 300), 'score_green_buffer'] += 2
         return(gdf)
     
-    def set_cottage_living(gdf, hex_count):
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'cottage_living', hex_count['cottage_living'])
+    def set_cottage_living(gdf, hex_count, WIND_DIRECTION, centre):
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'cottage_living', hex_count['cottage_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'cottage_living', hex_count['cottage_living'], func, 2)
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'cottage_living', hex_count['cottage_living'])
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'cottage_living', hex_count['cottage_living'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'cottage_living', hex_count['cottage_living'], func, 2)
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'cottage_living'].index), 'score_garden'] += 2
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'cottage_living'].index), 'score_green_buffer'] += 2
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'cottage_living'].index), 'score_industrial'] += -3
         return(gdf)
     
-    def set_industrial(gdf, hex_count):
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'industrial', hex_count['industrial'])
+    def set_industrial(gdf, hex_count, WIND_DIRECTION, centre):
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'industrial', hex_count['industrial'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'industrial', hex_count['industrial'], func,1)
         gdf.loc[filling_hex.check_neighbours_personal(gdf, gdf[gdf['func_zone'] == 'industrial'].index), 'score_green_buffer'] += 5
         return(gdf)
 
-    def set_green_buffer(gdf, hex_count):
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'])
+    def set_green_buffer(gdf, hex_count, WIND_DIRECTION, centre):
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,2)
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'])
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,2)
         return(gdf)
