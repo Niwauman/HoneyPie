@@ -95,6 +95,7 @@ class SocialObjectsLocation:
         gdf.loc[facility_points.loc[schools_places, 'index'].to_list(), 'landuse'] = 'social'
         gdf.loc[facility_points.loc[schools_places, 'index'].to_list(), 'func_zone'] = 'school'
         gdf.loc[facility_points.loc[schools_places, 'index'].to_list(), 'population'] = 0
+        gdf.loc[facility_points.loc[schools_places, 'index'].to_list(), 'fixed'] = 'fix'
         return(gdf)
     
 
@@ -148,4 +149,5 @@ class SocialObjectsLocation:
         gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'landuse'] = 'social'
         gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'func_zone'] = 'kindergarten'
         gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'population'] = 0
+        gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'fixed'] = 'fix'
         return(gdf)
