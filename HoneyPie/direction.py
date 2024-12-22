@@ -1,5 +1,8 @@
 import math
 
+
+
+
 class ChoosingHex:
     def choose_north_west(gdf):
         gdf = gdf[gdf['landuse'] == 'not_defined']
@@ -126,3 +129,26 @@ class Points:
         else: 
             direction = 'north'
         return(direction)
+    
+
+
+direction_choosing_hex = {
+    'north': ChoosingHex.choose_north,
+    'north_east': ChoosingHex.choose_north_east,
+    'east': ChoosingHex.choose_east,
+    'south_east': ChoosingHex.choose_south_east,
+    'south': ChoosingHex.choose_south,
+    'south_west': ChoosingHex.choose_south_west,
+    'west': ChoosingHex.choose_west,
+    'north_west': ChoosingHex.choose_north_west,
+}
+wind_choosing_hex = {
+    'south': ChoosingHex.choose_north,
+    'south_west': ChoosingHex.choose_north_east,
+    'west': ChoosingHex.choose_east,
+    'north_west': ChoosingHex.choose_south_east,
+    'north': ChoosingHex.choose_south,
+    'north_east': ChoosingHex.choose_south_west,
+    'east': ChoosingHex.choose_west,
+    'south_east': ChoosingHex.choose_north_west,
+}
