@@ -77,8 +77,10 @@ class TerritoryPlanner:
         return(gdf)
 
     def set_green_buffer(gdf, hex_count, WIND_DIRECTION, centre):
-        gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'], WIND_DIRECTION, centre)
-        gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,2)
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'park', hex_count['recreation'], WIND_DIRECTION, centre)
+        gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,4)
+        gdf, func = filling_hex.define_first_func_zone(gdf, 'garden', hex_count['recreation'], WIND_DIRECTION, centre)
+        gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,4)
         gdf, func = filling_hex.define_first_func_zone(gdf, 'green_buffer', hex_count['recreation'], WIND_DIRECTION, centre)
         gdf = filling_hex.set_func_zone(gdf, 'green_buffer', hex_count['recreation'], func,2)
         return(gdf)
