@@ -140,3 +140,23 @@ class ModifyHex:
         gdf['population_schildren'] = gdf['population'] * 0.0657
         gdf['population_teens'] = gdf['population'] * 0.1081
         return(gdf)
+    
+    def recover_landuse(gdf):
+        mask_middle_living = gdf['func_zone'] == 'middle_living'
+        mask_low_living = gdf['func_zone'] == 'low_living'
+        mask_cottage_living = gdf['func_zone'] == 'cottage_living'
+        mask_park = gdf['func_zone'] == 'park'
+        mask_garden = gdf['func_zone'] == 'garden'
+        mask_green_buffer = gdf['func_zone'] == 'green_buffer'
+        mask_school = gdf['func_zone'] == 'school'
+        mask_kindergarten = gdf['func_zone'] == 'kindergarten'
+        mask_industrial = gdf['func_zone'] == 'industrial'
+        mask_not_defined = gdf['func_zone'] == 'not_defined'
+        gdf.loc[gdf[mask_middle_living | mask_low_living | mask_cottage_living].index, 'landuse'] = 'living'
+        gdf.loc[gdf[mask_park | mask_garden | mask_green_buffer].index, 'landuse'] = 'recreation'
+        gdf.loc[gdf[mask_school | mask_kindergarten].index, 'landuse'] = 'social'
+        gdf.loc[gdf[mask_industrial].index, 'landuse'] = 'industrial'
+        gdf.loc[gdf[mask_not_defined].index, 'landuse'] = 'garden'
+        gdf.loc[gdf[mask_not_defined].index, 'func_zone'] = 'garden'
+        
+        return(gdf)
