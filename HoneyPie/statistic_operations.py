@@ -178,6 +178,9 @@ def plot_population(gdf):
     adults = 1 - schildren - teens
     sizes = [schildren, teens, adults]
     colors = ['gold', 'yellowgreen', 'lightblue']
+    explode = (0, 0, 0)
+    fig, ax = plt.subplots(facecolor='k')
+    ax.set_facecolor('k')
     # Create pie chart
     plt.figure(figsize=(6, 6))
     plt.pie(sizes,
@@ -185,8 +188,19 @@ def plot_population(gdf):
             colors=colors,
             autopct='%1.1f%%',
             startangle=90)
-    plt.suptitle(f'Total population: {total}', y=0.9, x=0.51)
-    plt.title('Age distribution', y=1.05, fontsize=18)
+    patches, texts, autotexts = ax.pie(sizes, 
+                                       explode=explode, 
+                                       labels=sizes, 
+                                       colors=colors, 
+                                       autopct='%1.1f%%',
+                                       shadow=True,
+                                       startangle=90)   
+    for autotext in autotexts:
+        autotext.set_color('black')
+        autotext.set_fontsize(12)
+    for text in texts:
+        text.set_color('white')
+    plt.suptitle(f'Total population: {total}', y=0.9, x=0.51, color='w')
+    plt.title('Age distribution', y=1.05, fontsize=18, color='w')
     plt.show()
     return()
-
