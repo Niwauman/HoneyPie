@@ -151,3 +151,57 @@ class SocialObjectsLocation:
         gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'population'] = 0
         gdf.loc[facility_points.loc[kindergarten_places, 'index'].to_list(), 'fixed'] = 'fix'
         return(gdf)
+    
+
+
+    def policlinic(gdf, ntw, LOCAL_CRS):
+        solver = pulp.PULP_CBC_CMD(keepFiles=True, msg=False)
+        SERVICE_RADIUS_POLICLINIC = 2000
+        client_points = gdf[gdf['population'] > 0].copy().to_crs(LOCAL_CRS)
+        client_points['geometry'] = client_points['geometry'].centroid
+        client_points = client_points.reset_index()
+        facility_points = client_points.copy()
+        facility_points['capacity_policlinic'] = 500
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+        # ignore deprecation warning - GH pysal/libpysal#468
+        ntw.snapobservations(client_points, "clients", attribute=True)
+        clients_snapped = spaghetti.element_as_gdf(ntw, pp_name="clients", snapped=True)
+        clients_snapped.drop(columns=["id", "comp_label"], inplace=True)
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+        # ignore deprecation warning - GH pysal/libpysal#468
+        ntw.snapobservations(facility_points, "facilities", attribute=True)
+        facilities_snapped = spaghetti.element_as_gdf(ntw, pp_name="facilities", snapped=True)
+        facilities_snapped.drop(columns=["id", "comp_label"], inplace=True)
+
+
+        cost_matrix = ntw.allneighbordistances(
+            sourcepattern=ntw.pointpatterns["clients"],
+            destpattern=ntw.pointpatterns["facilities"],
+        )
+
+        policlinics = LSCP.from_cost_matrix(
+            cost_matrix,
+            SERVICE_RADIUS_POLICLINIC,
+            demand_quantity_arr=client_points["population_patients"],
+            facility_capacity_arr=facility_points["capacity_policlinic"],
+            name="policlinics"
+        )
+
+        policlinics = policlinics.solve(solver)
+        selected_indices = policlinics.cli2fac
+        selected_indices = str(selected_indices).replace(']', '').replace('[', '').split(', ')
+        policlinics_places = []
+        for item in selected_indices:
+            item = int(item)
+            if item not in policlinics_places:
+                policlinics_places.append(item)
+
+        gdf.loc[facility_points.loc[policlinics_places, 'index'].to_list(), 'landuse'] = 'social'
+        gdf.loc[facility_points.loc[policlinics_places, 'index'].to_list(), 'func_zone'] = 'policlinic'
+        gdf.loc[facility_points.loc[policlinics_places, 'index'].to_list(), 'population'] = 0
+        gdf.loc[facility_points.loc[policlinics_places, 'index'].to_list(), 'fixed'] = 'fix'
+        return(gdf)
