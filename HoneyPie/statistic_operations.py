@@ -25,6 +25,10 @@ class StatsFuncZones:
             except KeyError:
                 dict_stat['kindergarten'] = 0
             try:
+                dict_stat['policlinic'] = grouped_zones.loc['policlinic'].iloc[0]
+            except KeyError:
+                dict_stat['policlinic'] = 0
+            try:
                 dict_stat['park'] = grouped_zones.loc['park'].iloc[0]
             except KeyError:
                 dict_stat['park'] = 0
@@ -51,6 +55,7 @@ class StatsFuncZones:
         dict_stat_p['cottage_living'] = round(dict_stat['cottage_living'] / total,2)
         dict_stat_p['school'] = round(dict_stat['school'] / total_area,2)
         dict_stat_p['kindergarten'] = round(dict_stat['kindergarten'] / total,2)
+        dict_stat_p['policlinic'] = round(dict_stat['policlinic'] / total,2)
         dict_stat_p['park'] = round(dict_stat['park'] / total_area,2)
         dict_stat_p['garden'] = round(dict_stat['garden'] / total_area,2)
         dict_stat_p['green_buffer'] = round(dict_stat['green_buffer'] / total_area,2)
@@ -59,9 +64,9 @@ class StatsFuncZones:
         return(dict_stat_p)
         
     def plot_balance_calculated(gdf, total_area):
-        zones = ['middle', 'low', 'cottage', 'school', 'kindergaten', 'park', 'garden', 'buffer', 'industrial', 'transport'] #
+        zones = ['middle', 'low', 'cottage', 'school', 'kindergaten','policlinic', 'park', 'garden', 'buffer', 'industrial', 'transport'] #
         values = StatsFuncZones.calculate_percent_zones(gdf,total_area)
-        colors = ['azure','cyan','lightblue','plum', 'orchid','green','lightgreen','darkgreen','coral', 'goldenrod'] #
+        colors = ['azure','cyan','lightblue','plum', 'orchid','tan','green','lightgreen','darkgreen','coral', 'goldenrod'] #
 
         list_values = []
         for i in values.values():
@@ -76,7 +81,7 @@ class StatsFuncZones:
         ax.grid(color='w', linestyle='--', linewidth=0.5)
         plt.show()
 
-        explode = (0, 0, 0, 0, 0,0,0,0,0,0)
+        explode = (0, 0, 0, 0, 0,0,0,0,0,0,0)
         fig, ax = plt.subplots(facecolor='k')
         ax.set_facecolor('k')
         patches, texts, autotexts = ax.pie(list_values, 
@@ -181,16 +186,10 @@ def plot_population(gdf):
     explode = (0, 0, 0)
     fig, ax = plt.subplots(facecolor='k')
     ax.set_facecolor('k')
-    # Create pie chart
-    plt.figure(figsize=(6, 6))
-    plt.pie(sizes,
-            labels=labels,
-            colors=colors,
-            autopct='%1.1f%%',
-            startangle=90)
+
     patches, texts, autotexts = ax.pie(sizes, 
                                        explode=explode, 
-                                       labels=sizes, 
+                                       labels=labels, 
                                        colors=colors, 
                                        autopct='%1.1f%%',
                                        shadow=True,
