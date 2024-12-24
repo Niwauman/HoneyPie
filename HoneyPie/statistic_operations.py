@@ -64,7 +64,7 @@ class StatsFuncZones:
         return(dict_stat_p)
         
     def plot_balance_calculated(gdf, total_area):
-        zones = ['middle', 'low', 'cottage', 'school', 'kindergaten','policlinic', 'park', 'garden', 'buffer', 'industrial', 'transport'] #
+        zones = ['ML', 'LL', 'CL', 'Sc', 'Kg','Me', 'R1', 'R2', 'R3', 'In', 'Tr'] #
         values = StatsFuncZones.calculate_percent_zones(gdf,total_area)
         colors = ['azure','cyan','lightblue','plum', 'orchid','tan','green','lightgreen','darkgreen','coral', 'goldenrod'] #
 
@@ -172,8 +172,10 @@ class StatsSocial:
     def print_social_objects(gdf):
         schools = len(gdf[gdf['func_zone'] == 'school'])
         kindergartens = len(gdf[gdf['func_zone'] == 'kindergarten'])
+        policlinics = len(gdf[gdf['func_zone'] == 'policlinic'])
         print(f"It's required {schools} schools")
         print(f"It's required {kindergartens} kindergartens")
+        print(f"It's required {policlinics} policlinics")
 
 def plot_population(gdf):
     labels = ['under 6 years', '7-18 years', 'over 18 years old']
