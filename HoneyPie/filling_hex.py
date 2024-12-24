@@ -135,10 +135,11 @@ class ModifyHex:
         gdf['population'] = 0
         gdf.loc[gdf[gdf['func_zone'] == 'middle_living'].index, 'population'] = 330
         gdf.loc[gdf[gdf['func_zone'] == 'low_living'].index, 'population'] = 70
-        gdf.loc[gdf[gdf['func_zone'] == 'cottage_living'].index, 'population'] = 50
+        gdf.loc[gdf[gdf['func_zone'] == 'cottage_living'].index, 'population'] = 50      
 
         gdf['population_schildren'] = gdf['population'] * 0.0657
         gdf['population_teens'] = gdf['population'] * 0.1081
+        gdf['population_patients'] = gdf['population'] * 0.018
         return(gdf)
     
     def recover_landuse(gdf):
